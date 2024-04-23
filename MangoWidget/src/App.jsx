@@ -9,7 +9,7 @@ import SpotifyWebApi from "spotify-web-api-js";
 import "./App.css";
 
 const spotifyApi = new SpotifyWebApi();
-const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+const CLIENT_ID = "037cc78d00034d8588fd477b4d2a3862";
 const REDIRECT_URI = "http://localhost:5173";
 const SCOPE = "user-read-currently-playing";
 
