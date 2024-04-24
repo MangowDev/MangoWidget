@@ -9,8 +9,9 @@ import SpotifyWebApi from "spotify-web-api-js";
 import "./App.css";
 
 const spotifyApi = new SpotifyWebApi();
-const CLIENT_ID = "037cc78d00034d8588fd477b4d2a3862";
-const REDIRECT_URI = "http://localhost:5173";
+const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
+const RESPONSE = "token";
 const SCOPE = "user-read-currently-playing";
 
 function App() {
@@ -82,7 +83,8 @@ function LoggedIn({ loggedIn, setLoggedIn }) {
     const artistElement = artistRef.current;
     if (nameElement && artistElement) {
       const nameOverflow = nameElement.scrollWidth > nameElement.clientWidth;
-      const artistOverflow = artistElement.scrollWidth > artistElement.clientWidth;
+      const artistOverflow =
+        artistElement.scrollWidth > artistElement.clientWidth;
 
       if (nameOverflow) {
         nameElement.classList.add("slide-in");
@@ -111,9 +113,9 @@ function LoggedIn({ loggedIn, setLoggedIn }) {
           });
         } else {
           setCurrentSong({
-            name: "No song currently playing",
+            name: "No song currently playing.",
             artist: "",
-            albumImage: "",
+            albumImage: "src/assets/MangoMelodyLogo.jpeg",
           });
         }
       })
@@ -123,13 +125,25 @@ function LoggedIn({ loggedIn, setLoggedIn }) {
   }
 
   function handleLoginWithSpotify() {
-    window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}&response_type=token`;
+    window.location = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}&response_type=${RESPONSE}`;
   }
 
   function handleLogout() {
     spotifyApi.setAccessToken(null);
-    setLoggedIn(false);
-    navigate("/");
+    const width = 700;
+    const height = 500;
+    const left = window.screen.width / 2 - width / 2;
+    const top = window.screen.height / 2 - height / 2;
+    const spotifyLogoutWindow = window.open(
+      "https://www.spotify.com/logout/",
+      "Spotify Logout",
+      `width=${width},height=${height},top=${top},left=${left}`
+    );
+    setTimeout(() => {
+      spotifyLogoutWindow.close();
+      setLoggedIn(false);
+      navigate("/");
+    }, 2000);
   }
 
   return (
@@ -158,7 +172,10 @@ function LoggedIn({ loggedIn, setLoggedIn }) {
                 {currentSong.artist}
               </p>
             </div>
-            <div className="loader"></div> 
+            <div className="arrow-div-container">
+                <div className="arrow-div"></div>
+              </div>
+            <div className="loader"></div>
           </div>
           <div className="button-div">
             <button onClick={handleLogout}>Logout</button>

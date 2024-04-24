@@ -18,7 +18,7 @@
   align-items: center;
   text-align: center;
   box-sizing: border-box;
-  width: 630px;
+  width: 670px;
   height: 150px;
 }
 
@@ -125,6 +125,21 @@ button:hover {
   background-color: rgb(255, 77, 0);
 }
 
+.arrow-div-container{
+  margin-left: 20px;
+  z-index: 99;
+}
+
+.arrow-div {
+  width: 0; 
+  height: 0; 
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 14px solid white;
+  cursor: pointer;
+}
+
+
 /** Text animation **/
 
 .slide-in {
@@ -164,17 +179,18 @@ button:hover {
   margin: 2px;
   border: inherit;
   border-radius: 50%;
-  box-shadow: 0 0 10px #000;
 }
 
 .loader::before {
   border-color: #ffffff #0000;
   animation: inherit;
+  box-shadow: 0 0 1px #000;
   animation-duration: 2s;
   animation-direction: reverse;
 }
 
 .loader::after {
+  box-shadow: 0 0 1px #000;
   margin: 8px;
 }
 
